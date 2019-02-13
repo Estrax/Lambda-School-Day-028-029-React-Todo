@@ -24,10 +24,31 @@ class App extends React.Component {
     };
   }
 
+  addTodo(todo) {
+    this.setState({
+      todos: [...this.state.todos, todo]
+    });
+  }
+
+  completeTodo(todoId) {
+    let todoUpdated = this.state.todos[todoId];
+    todoUpdated.completed = true;
+
+    this.setState({
+      todos: [todoUpdated, ...this.state.todos]
+    });
+  }
+
+  clearCompleted() {
+    this.setState({
+      todos: this.state.todos.filter(elem => !elem.completed)
+    });
+  };
+
   render() {
     return (
       <div>
-        <TodoList />
+        <TodoList todos={this.state.todos} addTodo={this.addTodo} completeTodo={this.completeTodo} clearCompleted={this.clearCompleted} />
       </div>
     );
   }
