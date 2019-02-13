@@ -3,9 +3,9 @@ import Todo from './Todo';
 
 const TodoList = props => {
 	return (
-		<div>
-			{props.todos.map(elem => <Todo todo={elem} completeTodo={props.completeTodo} key={elem.id} />)}
-		</div>
+		<ul>
+			{props.todos.map(elem => <li key={elem.id}><Todo todo={elem} completeTodo={props.completeTodo} /></li>)}
+		</ul>
 	);
 }
 

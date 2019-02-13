@@ -12,12 +12,18 @@ class App extends React.Component {
 			search: ""
 		};
 
+		this.encode = this.encode.bind(this);
+		this.decode = this.decode.bind(this);
+		this.localStorageSave = this.localStorageSave.bind(this);
+		this.localStorageFetch = this.localStorageFetch.bind(this);
 		this.addTodo = this.addTodo.bind(this);
 		this.completeTodo = this.completeTodo.bind(this);
 		this.clearCompleted = this.clearCompleted.bind(this);
 		this.onFormChange = this.onFormChange.bind(this);
 		this.onSearchChange = this.onSearchChange.bind(this);
 		this.onFormSubmit = this.onFormSubmit.bind(this);
+		this.findTodos = this.findTodos.bind(this);
+		this.findNotCompleted = this.findNotCompleted.bind(this);
 	}
 
 	encode(todos) {
@@ -34,12 +40,6 @@ class App extends React.Component {
 
 	localStorageFetch() {
 		return localStorage.getItem('todos');
-	}
-
-	findTodos(phrase) {
-		if(phrase === "") return this.state.todos;
-
-		return this.state.todos.filter(elem => elem.task.includes(phrase));
 	}
 
 	addTodo() {
@@ -99,11 +99,22 @@ class App extends React.Component {
 		this.addTodo();
 	}
 
+	findTodos(phrase) {
+		if(phrase === "") return this.state.todos;
+
+		return this.state.todos.filter(elem => elem.task.includes(phrase));
+	}
+
+	findNotCompleted() {
+		return this.state.todos.filter(elem => !elem.completed);
+	}
+
 	render() {
 		return (
 			<div>
 				<h1>Todo List</h1>
-				<h3>You have {this.state.todos.length} {this.state.todos.length === 1 ? "task" : "tasks"} on the todo list. {this.state.todos.filter(elem => !elem.completed).length > 0 ? `Still a lot to do. Keep working on the ${this.state.todos.filter(elem => !elem.completed).length} ${this.state.todos.length === 1 ? "task" : "tasks"} remaining!`: ""}</h3>
+				<h3>{`You have ${this.state.todos.length} ${this.state.todos.length === 1 ? "task" : "tasks"} on the todo list.`}</h3>
+				<h3>{`${this.findNotCompleted().length > 0 ? `Still a lot to do. Keep working on the ${this.findNotCompleted().length} ${this.findNotCompleted().length === 1 ? "task" : "tasks"} remaining!` : this.findTodos("").length > 0 ? "All of them completed." : ""}`}</h3>
 				<input 
 					type="text"
 					name="search"
