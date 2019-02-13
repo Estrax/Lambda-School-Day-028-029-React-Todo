@@ -11,18 +11,7 @@ class App extends React.Component {
 
 		this.state = {
 			todo: "",
-			todos: [
-				{
-					task: 'Organize Garage',
-					id: 1528817077286,
-					completed: false
-				},
-				{
-					task: 'Bake Cookies',
-					id: 1528817084358,
-					completed: false
-				}
-			]
+			todos: this.decode(this.localStorageFetch()) || []
 		};
 
 		this.addTodo = this.addTodo.bind(this);
@@ -32,6 +21,22 @@ class App extends React.Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
+	encode(todos) {
+		return JSON.stringify(todos);
+	}
+
+	decode(str) {
+		return JSON.parse(str);
+	}
+
+	localStorageSave(str) {
+		localStorage.setItem('todos', str);
+	}
+
+	localStorageFetch() {
+		return localStorage.getItem('todos');
+	}
+
 	addTodo() {
 		const todo = {
 			task: this.state.todo,
@@ -39,25 +44,32 @@ class App extends React.Component {
 			completed: false
 		};
 
-		this.setState({
+		this.localStorageSave(this.encode([...this.state.todos, todo]));
+
+		return this.setState({
 			...this.state,
 			todo: "",
-			todos: [...this.state.todos, todo]
-		})
+			todos: this.decode(this.localStorageFetch())
+		});
 	}
 
 	completeTodo(todoId) {
 		const todo = this.state.todos[this.state.todos.indexOf(this.state.todos.find(elem => elem.id === todoId))];
 		todo.completed = true;
 		
+		this.localStorageSave(this.encode([...this.state.todos.filter(elem => elem.id !== todo.id), todo]));
+
 		this.setState({
-			todos: [...this.state.todos.filter(elem => elem.id !== todo.id), todo]
+			...this.state,
+			todos: this.decode(this.localStorageFetch())
 		});
 	}
 
 	clearCompleted() {
+		this.localStorageSave(this.encode(this.state.todos.filter(elem => !elem.completed)));
+
 		this.setState({
-			todos: this.state.todos.filter(elem => !elem.completed)
+			todos: this.decode(this.localStorageFetch())
 		});
 	};
 
