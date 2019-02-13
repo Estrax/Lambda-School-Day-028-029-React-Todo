@@ -88,6 +88,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
+				<h1>Todo List:</h1>
 				<TodoList todos={this.state.todos.sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))} completeTodo={this.completeTodo} />
 				<TodoForm todo={this.state.todo} addTodo={this.addTodo} update={this.onChange} submit={this.onSubmit} />
 				<button onClick={this.clearCompleted}>Clear Completed</button>
