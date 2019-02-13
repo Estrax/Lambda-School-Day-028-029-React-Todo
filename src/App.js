@@ -88,7 +88,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Todo List:</h1>
+				<h1>Todo List</h1>
+				<h3>You have {this.state.todos.length} {this.state.todos.length === 1 ? "task" : "tasks"} on the todo list. {this.state.todos.filter(elem => !elem.completed).length > 0 ? `Still a lot to do. Keep working on the ${this.state.todos.filter(elem => !elem.completed).length} ${this.state.todos.length === 1 ? "task" : "tasks"} remaining!`: ""}</h3>
 				<TodoList todos={this.state.todos.sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))} completeTodo={this.completeTodo} />
 				<TodoForm todo={this.state.todo} addTodo={this.addTodo} update={this.onChange} submit={this.onSubmit} />
 				<button onClick={this.clearCompleted}>Clear Completed</button>
