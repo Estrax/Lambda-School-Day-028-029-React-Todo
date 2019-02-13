@@ -27,22 +27,20 @@ class TodoForm extends Component {
 
 	render() {
 		return (
-			<div>
-				<form onSubmit={this.onSubmit}>
-					<input 
-						type="text"
-						name="todo"
-						placeholder="...todo"
-						value={this.state.todo}
-						onChange={this.onChange}
-					/>
+			<form onSubmit={this.onSubmit}>
+				<input 
+					type="text"
+					name="todo"
+					placeholder="...todo"
+					value={this.state.todo}
+					onChange={this.onChange}
+				/>
 
-					<input
-						type="submit"
-						value="Add Todo"
-					/>
-				</form>
-			</div>
+				<input
+					type="submit"
+					value="Add Todo"
+				/>
+			</form>
 		);
 	}
 }
