@@ -69,12 +69,14 @@ class App extends React.Component {
 		this.localStorageSave(this.encode(this.state.todos.filter(elem => !elem.completed)));
 
 		this.setState({
+			...this.state,
 			todos: this.decode(this.localStorageFetch())
 		});
 	};
 
 	onChange(event) {
 		this.setState({
+			...this.state,
 			todo: event.target.value,
 			todos: this.state.todos
 		});
