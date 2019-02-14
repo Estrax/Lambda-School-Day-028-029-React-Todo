@@ -35,11 +35,11 @@ class App extends React.Component {
 
 	fetchTodos(){
 		let todos = this.decode(this.localStorageFetch());
-		if(todos === "[]") todos = [];
+		if(todos === "[]" || todos === null || todos === undefined) todos = [];
 
 		this.setState({
 			...this.state,
-			todos: todos
+			todos: this.state.todos.concat(todos)
 		});	
 	}
 
