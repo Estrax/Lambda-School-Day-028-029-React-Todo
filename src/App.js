@@ -3,6 +3,7 @@ import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoSearch from './components/TodoComponents/TodoSearch';
 import TodoTop from './components/TodoComponents/TodoTop';
+import './App.css';
 
 class App extends React.Component {
 	constructor(){
@@ -127,7 +128,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="todoApp">
 				<TodoTop todosCount={this.findTodos().length} todosNotCompletedCount={this.findNotCompleted().length} />
 				<TodoSearch search={this.state.search} findTodos={this.findTodos} onSearchChange={this.onSearchChange} />
 				<TodoList todos={this.findTodos(this.state.search)} completeTodo={this.completeTodo} />

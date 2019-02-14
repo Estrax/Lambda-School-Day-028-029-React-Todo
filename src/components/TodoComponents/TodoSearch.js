@@ -2,7 +2,8 @@ import React from 'react';
 
 const TodoSearch = props => {
 	return (
-        <div>
+        props.findTodos().length > 0 ?
+        <div className="searchBox">
             <input 
                 type="text"
                 name="search"
@@ -16,6 +17,7 @@ const TodoSearch = props => {
                 : ""
             }
         </div>
+        : ""
 	);
 }
 

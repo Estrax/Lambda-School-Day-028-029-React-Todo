@@ -3,6 +3,7 @@ import React from 'react';
 const TodoForm = props => {
 	return (
 		<form onSubmit={props.submit}>
+			<label htmlFor="todo">Your todo:</label>
 			<input 
 				type="text"
 				name="todo"
