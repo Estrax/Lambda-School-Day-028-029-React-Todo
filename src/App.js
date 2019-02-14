@@ -117,7 +117,7 @@ class App extends React.Component {
 	}
 
 	findTodos(phrase) {
-		if(phrase.length === 0) return this.state.todos;
+		if(phrase === undefined || phrase === null || phrase.length === 0) return this.state.todos;
 		return this.state.todos.filter(elem => elem.task.includes(phrase));
 	}
 
@@ -128,7 +128,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<TodoTop todosCount={this.state.todos.length} todosNotCompletedCount={this.findNotCompleted().length} />
+				<TodoTop todosCount={this.findTodos().length} todosNotCompletedCount={this.findNotCompleted().length} />
 				<TodoSearch search={this.state.search} findTodos={this.findTodos} onSearchChange={this.onSearchChange} />
 				<TodoList todos={this.findTodos(this.state.search)} completeTodo={this.completeTodo} />
 				<TodoForm todo={this.state.todo} addTodo={this.addTodo} update={this.onFormChange} submit={this.onFormSubmit} />
