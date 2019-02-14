@@ -1,6 +1,8 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import TodoSearch from './components/TodoComponents/TodoSearch';
+import TodoTop from './components/TodoComponents/TodoTop';
 
 class App extends React.Component {
 	constructor(){
@@ -8,7 +10,7 @@ class App extends React.Component {
 
 		this.state = {
 			todo: "",
-			todos: this.fetchTodos(),
+			todos: [],
 			search: ""
 		};
 
@@ -27,10 +29,18 @@ class App extends React.Component {
 		this.fetchTodos = this.fetchTodos.bind(this);
 	}
 
+	componentDidMount() {
+		this.fetchTodos();
+	}
+
 	fetchTodos(){
-		const todos = this.decode(this.localStorageFetch());
-		if(todos.length === 0) return [];
-		return todos;
+		let todos = this.decode(this.localStorageFetch());
+		if(todos === "[]") todos = [];
+
+		this.setState({
+			...this.state,
+			todos: todos
+		});	
 	}
 
 	encode(todos) {
@@ -107,8 +117,7 @@ class App extends React.Component {
 	}
 
 	findTodos(phrase) {
-		if(phrase === "") return this.state.todos;
-
+		if(phrase.length === 0) return this.state.todos;
 		return this.state.todos.filter(elem => elem.task.includes(phrase));
 	}
 
@@ -119,22 +128,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Todo List</h1>
-				<h3>{`You have ${this.state.todos.length} ${this.state.todos.length === 1 ? "task" : "tasks"} on the todo list.`}</h3>
-				<h3>{`${this.findNotCompleted().length > 0 ? `Still a lot to do. Keep working on the ${this.findNotCompleted().length} ${this.findNotCompleted().length === 1 ? "task" : "tasks"} remaining!` : this.findTodos("").length > 0 ? "All of them completed." : ""}`}</h3>
-				<input 
-					type="text"
-					name="search"
-					placeholder="find your todos..."
-					value={this.state.search}
-					onChange={this.onSearchChange}
-				/>
-				{
-					this.state.search !== "" ?
-					<h3>Found {this.findTodos(this.state.search).length} {this.findTodos(this.state.search).length === 1 ? "todo" : "todos"}.</h3>
-					: ""
-				}
-				<TodoList todos={this.findTodos(this.state.search).sort((a, b) => (a.id > b.id) ? 1 : ((b.id > a.id) ? -1 : 0))} completeTodo={this.completeTodo} />
+				<TodoTop todosCount={this.state.todos.length} todosNotCompletedCount={this.findNotCompleted().length} />
+				<TodoSearch search={this.state.search} findTodos={this.findTodos} onSearchChange={this.onSearchChange} />
+				<TodoList todos={this.findTodos(this.state.search)} completeTodo={this.completeTodo} />
 				<TodoForm todo={this.state.todo} addTodo={this.addTodo} update={this.onFormChange} submit={this.onFormSubmit} />
 				<button onClick={this.clearCompleted}>Clear Completed</button>
 			</div>
