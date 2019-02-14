@@ -8,7 +8,7 @@ class App extends React.Component {
 
 		this.state = {
 			todo: "",
-			todos: this.decode(this.localStorageFetch()) || [],
+			todos: this.fetchTodos(),
 			search: ""
 		};
 
@@ -24,6 +24,13 @@ class App extends React.Component {
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 		this.findTodos = this.findTodos.bind(this);
 		this.findNotCompleted = this.findNotCompleted.bind(this);
+		this.fetchTodos = this.fetchTodos.bind(this);
+	}
+
+	fetchTodos(){
+		const todos = this.decode(this.localStorageFetch());
+		if(todos.length === 0) return [];
+		return todos;
 	}
 
 	encode(todos) {
